@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Grid } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
 import { ActivityList } from "./ActivityList";
@@ -10,11 +10,13 @@ interface Iprops {
   selectActivity: (id: string) => void;
   selectedActivity: IActivity | null;
   editMode: boolean;
-  setEditMode: (editMode : boolean) => void
-  setSelectedActivity: (activity: IActivity | null) => void
-  createActivity: (activity: IActivity) => void
-  editActivity: (activity: IActivity) => void
-  deleteActivity: (id: string) => void
+  setEditMode: (editMode : boolean) => void;
+  setSelectedActivity: (activity: IActivity | null) => void;
+  createActivity: (activity: IActivity) => void;
+  editActivity: (activity: IActivity) => void;
+  deleteActivity: (event: SyntheticEvent<HTMLButtonElement> ,id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 export const ActivityDasboard: React.FC<Iprops> = ({
@@ -26,7 +28,9 @@ export const ActivityDasboard: React.FC<Iprops> = ({
   setSelectedActivity,
   createActivity,
   editActivity,
-  deleteActivity
+  deleteActivity,
+  submitting,
+  target
 }) => {
   return (
     <Grid>
@@ -35,6 +39,8 @@ export const ActivityDasboard: React.FC<Iprops> = ({
           activities={activities}
           selectActivity={selectActivity}
           deleteActivity={deleteActivity}
+          submitting={submitting}
+          target={target}
         />
       </Grid.Column>
       <Grid.Column width={6}>
@@ -52,6 +58,7 @@ export const ActivityDasboard: React.FC<Iprops> = ({
             activity={selectedActivity!}
             createActivity={createActivity}
             editActivity={editActivity}
+            submitting={submitting}
           />
         )}
       </Grid.Column>
